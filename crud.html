@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>New crud</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+  <body>
+    <div id="preloader">
+      <div class="loader"></div>
+    </div>
+
+    <div class="animate__backInDown" id="hidden">
+      <i
+        onclick="closeTab()"
+        id="close"
+        class="fa-solid fa-xmark fa-lg"
+        class="animate__backOutUp"
+        style="color: #9e9e9e; cursor: pointer"
+      ></i>
+      <label for="input-file">
+        <img class="image" src="profile.png" id="profile-pic" />
+      </label>
+      <div class="form">
+        <div class="inputs-fields">
+          <p class="p-tag">Name:</p>
+          <input
+            type="text"
+            id="fname"
+            placeholder="Enter your name"
+            onkeyup="username()"
+          /><span
+            ><i
+              class="fa-solid fa-check"
+              id="check"
+              style="color: #7ce250; display: none"
+            ></i>
+            <i
+              class="fa-solid fa-xmark"
+              id="cross"
+              style="color: #e41111; display: none"
+            ></i
+          ></span>
+          <p class="p-tag">Email:</p>
+          <input
+            type="email"
+            name=""
+            id="mail"
+            onkeyup="email()"
+            placeholder="Enter your Email"
+          />
+          <span
+            ><i
+              class="fa-solid fa-check"
+              id="checkGreen"
+              style="color: #7ce250; display: none"
+            ></i>
+            <i
+              class="fa-solid fa-xmark"
+              id="redCross"
+              style="color: #e41111; display: none"
+            ></i
+          ></span>
+        </div>
+        <div class="inputs-field2">
+          <p class="p-tag">Adress:</p>
+          <input
+            type="text"
+            name=""
+            id="Adress"
+            placeholder="Enter your Adress "
+            onkeyup="adress()"
+          />
+          <span
+            ><i
+              class="fa-solid fa-check"
+              id="correct2"
+              style="color: #7ce250; display: none"
+            ></i>
+            <i
+              class="fa-solid fa-xmark"
+              id="cross2"
+              style="color: #e41111; display: none"
+            ></i
+          ></span>
+          <p class="p-tag">CNIC:</p>
+          <input
+            type="number"
+            required=""
+            maxlength="12"
+            placeholder="XXXXX-XXXXXXX-X"
+            id="cnicNumber"
+            onkeyup="Cnic()"
+          />
+          <span
+            ><i
+              class="fa-solid fa-check"
+              id="gTick"
+              style="color: #7ce250; display: none"
+            ></i>
+            <i
+              class="fa-solid fa-xmark"
+              id="rTick"
+              style="color: #e41111; display: none"
+            ></i
+          ></span>
+        </div>
+        <div class="btns">
+          <button
+            id="submit"
+            onclick="username();email();adress();Cnic();addData();"
+          >
+            Submit
+          </button>
+          <input
+            type="file"
+            style="display: none"
+            accept="image/jpeg, image/png,image/jpg"
+            id="input-file"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <button id="showData">
+        <i class="fa-solid fa-user-plus fa-lg" style="color: #ffffff"></i>
+      </button>
+      <input
+        type="search"
+        name="search"
+        id="search"
+        placeholder="Search"
+        oninput="searchTable()"
+      />
+      <table id="table">
+        <tr>
+          <th>#</th>
+          <th>Profile</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Address</th>
+          <th>CNIC</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+        <!-- <tr>
+          <td>1</td>
+          <td>
+            <img id="avatar" src="profile.png" alt="" />
+          </td>
+          <td id="myName">M younas</td>
+          <td id="mymail">myounas@gmail.com</td>
+          <td id="myadd">etc</td>
+          <td id="myCNIC">114456432132</td>
+          <td>
+            <i
+              class="fa-solid fa-file-pen"
+              id="edit"
+              style="color: #000000"
+            ></i>
+            <i
+              class="fa-solid fa-circle-check fa-shake"
+              style="color: #44b22e"
+              id="Close"
+            ></i>
+
+            <i
+              class="fa-solid fa-trash"
+              onclick="deleteRow(this)"
+              style="color: #de1717"
+              id="delete"
+            ></i>
+          </td>
+        </tr> -->
+      </table>
+      <div id="noData"></div>
+    </div>
+  </body>
+  <script>
+    let profilPic = document.getElementById("profile-pic");
+    let inputFile = document.getElementById("input-file");
+    inputFile.onchange = function () {
+      profilPic.src = URL.createObjectURL(inputFile.files[0]);
+    };
+
+    function closeTab() {
+      let closetab = document.getElementById("close");
+      let hidden1 = document.getElementById("hidden");
+
+      let correct0 = document.getElementById("check");
+      let cross0 = document.getElementById("cross");
+
+      let correct1 = document.getElementById("checkGreen");
+      let cross1 = document.getElementById("redCross");
+
+      let correct = document.getElementById("correct2");
+      let cross = document.getElementById("cross2");
+
+      let gTick = document.getElementById("gTick");
+      let rTick = document.getElementById("rTick");
+
+      let fname = document.getElementById("fname").value;
+      let mail = document.getElementById("mail").value;
+      let address = document.getElementById("Adress").value;
+      let Cnic = document.getElementById("cnicNumber").value;
+
+      if (hidden1.style.display == "block") {
+        hidden1.style.display = "none";
+      }
+      document.getElementById("gTick").style.display = "none";
+      document.getElementById("rTick").style.display = "none";
+      document.getElementById("correct2").style.display = "none";
+      document.getElementById("cross2").style.display = "none";
+      document.getElementById("checkGreen").style.display = "none";
+      document.getElementById("redCross").style.display = "none";
+      document.getElementById("check").style.display = "none";
+      document.getElementById("cross").style.display = "none";
+
+      document.getElementById("fname").value = "";
+      document.getElementById("mail").value = "";
+      document.getElementById("Adress").value = "";
+      document.getElementById("cnicNumber").value = "";
+    }
+
+    showData.addEventListener("click", function () {
+      let showData = document.getElementById("showData");
+      let hidden1 = document.getElementById("hidden");
+      let close = document.getElementById("close");
+      if (hidden1.style.display == "none") {
+        hidden1.style.display = "block";
+      } else {
+        hidden1.style.display = "none";
+      }
+    });
+    function username() {
+      let inputName = document.getElementById("fname").value;
+      let correct = document.getElementById("check");
+      let cross = document.getElementById("cross");
+      if (inputName.length === 0) {
+        cross.style.display = "block";
+        correct.style.display = "none";
+        return false; // Validation failed
+      } else {
+        cross.style.display = "none";
+        correct.style.display = "block";
+        return true; // Validation passed
+      }
+    }
+
+    function email() {
+      let emailInput = document.getElementById("mail").value;
+      let correct = document.getElementById("checkGreen");
+      let cross = document.getElementById("redCross");
+      var mailformat = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!mailformat.test(emailInput)) {
+        cross.style.display = "block";
+        correct.style.display = "none";
+        return false; // Validation failed
+      } else {
+        cross.style.display = "none";
+        correct.style.display = "block";
+        return true; // Validation passed
+      }
+    }
+
+    function adress() {
+      let adress = document.getElementById("Adress").value;
+      let correct = document.getElementById("correct2");
+      let cross = document.getElementById("cross2");
+      if (adress.length === 0) {
+        cross.style.display = "block";
+        correct.style.display = "none";
+        return false; // Validation failed
+      } else {
+        cross.style.display = "none";
+        correct.style.display = "block";
+        return true; // Validation passed
+      }
+    }
+
+    function Cnic() {
+      // let cnicInput = document.getElementById("cnicNumber");
+      // let gTick = document.getElementById("gTick");
+      // let rTick = document.getElementById("rTick");
+      // const regex = /^(\d{5})(\d{7})(\d{1})$/;
+
+      // cnicInput.addEventListener("input", function () {
+      //   let inputValue = cnicInput.value.replace(/\D/g); // Remove non-digit characters
+      //   let formattedNumber = inputValue.replace(regex, "$1-$2-$3");
+      //   cnicInput.value = formattedNumber;
+
+      //   const cnicRegex = /^[0-9]{15}$/;
+      //   if (!cnicRegex.test(inputValue)) {
+      //     rTick.style.display = "block";
+      //     gTick.style.display = "none";
+      //   } else {
+      //     rTick.style.display = "none";
+      //     gTick.style.display = "block";
+      //   }
+      // });
+    }
+
+    let serialNumber = 1;
+    let editingRowIndex = -1; // Initialize to an invalid index when not editing
+
+    function addData() {
+      if (username() && email() && adress() ) {
+        let profilPic = document.getElementById("profile-pic");
+        let inputFile = document.getElementById("input-file");
+        let fname = document.getElementById("fname").value;
+        let mail = document.getElementById("mail").value;
+        let address = document.getElementById("Adress").value;
+        let Cnic = document.getElementById("cnicNumber").value;
+        let table = document.getElementById("table");
+
+        let correct0 = document.getElementById("check");
+        let cross0 = document.getElementById("cross");
+
+        let correct1 = document.getElementById("checkGreen");
+        let cross1 = document.getElementById("redCross");
+
+        let correct = document.getElementById("correct2");
+        let cross = document.getElementById("cross2");
+
+        let gTick = document.getElementById("gTick");
+        let rTick = document.getElementById("rTick");
+        let input_File = document.getElementById("input-file");
+        if (!input_File.files[0]) {
+          Swal.fire({
+            icon: "warning",
+            title: "Error",
+            text: "Please select an image",
+          });
+          return;
+        }
+        // Check if the provided email already exists in the table
+        let existingEmails = Array.from(
+          document.querySelectorAll("#table td:nth-child(4)")
+        ).map((td) => td.innerText);
+        if (existingEmails.includes(mail)) {
+          Swal.fire({
+            icon: "warning",
+            title: "Error",
+            text: "Email already exists in the table",
+          });
+          return;
+        }
+
+        // Check if the provided name already exists in the table
+        let existingNames = Array.from(
+          document.querySelectorAll("#table td:nth-child(3)")
+        ).map((td) => td.innerText);
+        if (existingNames.includes(fname)) {
+          Swal.fire({
+            icon: "info",
+            title: "Error",
+            text: "Name already exists in the table",
+          });
+          return;
+        }
+
+        let template = `<tr>
+      <td>${serialNumber}</td>
+      <td>
+        <img  src="${URL.createObjectURL(
+          inputFile.files[0]
+        )}" class="image" id="profile-pic"/>
+      </td>
+      <td class="editable" contenteditable="false">${fname}</td>
+      <td class="editable" contenteditable="false">${mail}</td>
+      <td class="editable" contenteditable="false">${address}</td>
+      <td class="editable" contenteditable="false">${Cnic}</td>
+
+      <td>
+      <i class="fa-solid fa-file-pen fa-xl" id="edit_btn" onclick="enableEdit(this)" style="color: blue;cursor: pointer"></i>
+      <i class="fa-solid fa-circle-check fa-lg" id="Tick_btn" onclick="disableEdit(this)" style="color: #44b22e; display:none;"></i><span>
+
+      <i class="fa-solid fa-xmark fa-xl" id="Cross"  style="color: #de1717; cursor: pointer;display:none;"></i></span>
+    </td>
+    <td>
+      <i class="fa-solid fa-trash fa-lg" onclick="deleteRow(this)" style="color: #de1717;cursor: pointer"></i>
+    </td>
+    </tr>`;
+
+        table.innerHTML += template;
+        serialNumber++;
+
+        document.getElementById("fname").value = "";
+        document.getElementById("mail").value = "";
+        document.getElementById("Adress").value = "";
+        document.getElementById("cnicNumber").value = "";
+        document.getElementById("hidden").style.display = "none";
+        document.getElementById("gTick").style.display = "none";
+        document.getElementById("rTick").style.display = "none";
+        document.getElementById("correct2").style.display = "none";
+        document.getElementById("cross2").style.display = "none";
+        document.getElementById("checkGreen").style.display = "none";
+        document.getElementById("redCross").style.display = "none";
+        document.getElementById("check").style.display = "none";
+        document.getElementById("cross").style.display = "none";
+        document.getElementById("profile-pic").src = "profile.png";
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          },
+        });
+        Toast.fire({
+          title: "Data added successfully",
+        });
+      } else {
+        Swal.fire({
+          icon: "info",
+          title: "error",
+          text: "check inputs ",
+        });
+      }
+    }
+
+    function deleteRow(row) {
+      var rowIndex = row.parentNode.parentNode.rowIndex;
+      document.getElementById("table").deleteRow(rowIndex);
+      serialNumber--;
+    }
+
+    function updateSerialNumbers() {
+      let tableRows = document.getElementById("table").rows;
+      for (let i = 1; i < tableRows.length; i++) {
+        tableRows[i].cells[0].innerText = i;
+      }
+    }
+    function enableEdit(icon) {
+      let row = icon.parentNode.parentNode;
+      let rowIndex = row.rowIndex;
+
+      if (editingRowIndex === -1) {
+        // Only allow editing if another row is not already being edited
+        editingRowIndex = rowIndex;
+
+        let cells = row.querySelectorAll(".editable");
+        cells.forEach((cell) => {
+          // Create input element and set its value to the current text content
+          let input = document.createElement("input");
+          input.type = "text";
+          input.value = cell.innerText;
+
+          // Append the input field and hide the text content
+          cell.innerHTML = "";
+          cell.appendChild(input);
+
+          icon.style.display = "none";
+          row.querySelector("#Tick_btn").style.display = "block";
+        });
+      }
+    }
+
+    function disableEdit(icon) {
+      let row = icon.parentNode.parentNode;
+      let rowIndex = row.rowIndex;
+
+      if (rowIndex === editingRowIndex) {
+        // Reset the editingRowIndex
+        editingRowIndex = -1;
+
+        let cells = row.querySelectorAll(".editable");
+        cells.forEach((cell) => {
+          // Update text content with the value of the input field
+          let input = cell.querySelector("input");
+          cell.innerText = input.value;
+        });
+
+        icon.style.display = "none";
+        row.querySelector("#edit_btn").style.display = "block";
+      }
+    }
+    // Function for search
+    function searchTable() {
+      let pic = document.getElementById("noData");
+      let input, filter, table, tr, td, i, txtValue;
+
+      input = document.getElementById("search");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("table");
+      tr = table.getElementsByTagName("tr");
+
+      let searchResultShown = false; // Flag to check if any search result is shown
+
+      for (i = 0; i < tr.length; i++) {
+        let tdSerial, tdName, tdGmail, tdAddress, tdCNIC;
+        tdSerial = tr[i].getElementsByTagName("td")[0];
+        tdName = tr[i].getElementsByTagName("td")[1];
+        tdGmail = tr[i].getElementsByTagName("td")[2];
+        tdAddress = tr[i].getElementsByTagName("td")[3];
+        tdCNIC = tr[i].getElementsByTagName("td")[4];
+
+        if (tdSerial || tdName || tdGmail || tdAddress || tdCNIC) {
+          // Modify the txtValue assignment based on the column you want to search
+          let txtValueSerial = tdSerial.textContent || tdSerial.innerText;
+          let txtValueName = tdName.textContent || tdName.innerText;
+          let txtValueGmail = tdGmail.textContent || tdGmail.innerText;
+          let txtValueAddress = tdAddress.textContent || tdAddress.innerText;
+          let txtValueCNIC = tdCNIC.textContent || tdCNIC.innerText;
+
+          // Modify the condition based on the column you want to search
+          if (
+            txtValueSerial.toUpperCase().indexOf(filter) > -1 ||
+            txtValueName.toUpperCase().indexOf(filter) > -1 ||
+            txtValueGmail.toUpperCase().indexOf(filter) > -1 ||
+            txtValueAddress.toUpperCase().indexOf(filter) > -1 ||
+            txtValueCNIC.toUpperCase().indexOf(filter) > -1
+          ) {
+            tr[i].style.display = "";
+            searchResultShown = true; // Set flag to true if any search result is shown
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+
+      // Hide or show the "pic" element based on the search result
+      if (searchResultShown) {
+        pic.style.display = "none";
+      } else {
+        pic.style.display = "block";
+      }
+    }
+  </script>
+  <script>
+    let loader = document.getElementById("preloader");
+    window.addEventListener("load", function () {
+      loader.style.display = "none";
+    });
+  </script>
+</html>
